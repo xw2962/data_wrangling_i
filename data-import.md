@@ -126,3 +126,39 @@ Data summary
 | pups_born_alive |         0 |          1.00 |  7.35 | 1.76 |  3.0 |  6.00 |  8.00 |  8.00 | 11.0 | ▁▃▂▇▁ |
 | pups_dead_birth |         0 |          1.00 |  0.33 | 0.75 |  0.0 |  0.00 |  0.00 |  0.00 |  4.0 | ▇▂▁▁▁ |
 | pups_survive    |         0 |          1.00 |  6.41 | 2.05 |  1.0 |  5.00 |  7.00 |  8.00 |  9.0 | ▁▃▂▇▇ |
+
+## Options to read_csv
+
+check out `?read_csv()` for more information.
+
+``` r
+litters_df=read_csv("./data/FAS_litters.csv", skip=10, col_names=FALSE)
+```
+
+    ## Rows: 40 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): X1, X2
+    ## dbl (6): X3, X4, X5, X6, X7, X8
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+litters_df
+```
+
+    ## # A tibble: 40 × 8
+    ##    X1    X2                 X3    X4    X5    X6    X7    X8
+    ##    <chr> <chr>           <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    ##  1 Con8  #3/5/2/2/95      28.5  NA      20     8     0     8
+    ##  2 Con8  #5/4/3/83/3      28    NA      19     9     0     8
+    ##  3 Con8  #1/6/2/2/95-2    NA    NA      20     7     0     6
+    ##  4 Con8  #3/5/3/83/3-3-2  NA    NA      20     8     0     8
+    ##  5 Con8  #2/2/95/2        NA    NA      19     5     0     4
+    ##  6 Con8  #3/6/2/2/95-3    NA    NA      20     7     0     7
+    ##  7 Mod7  #59              17    33.4    19     8     0     5
+    ##  8 Mod7  #103             21.4  42.1    19     9     1     9
+    ##  9 Mod7  #1/82/3-2        NA    NA      19     6     0     6
+    ## 10 Mod7  #3/83/3-2        NA    NA      19     8     0     8
+    ## # ℹ 30 more rows
