@@ -368,120 +368,166 @@ display: none;
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>options(tibble.print_min = 3)
-
-litters_data = read_csv(&quot;./data/FAS_litters.csv&quot;,
+<div id="load-in-the-fas-litters-data" class="section level2">
+<h2>Load in the FAS Litters Data</h2>
+<pre class="r"><code>litters_df = read_csv(&quot;./data/FAS_litters.csv&quot;,
   col_types = &quot;ccddiiii&quot;)
-litters_data = janitor::clean_names(litters_data)
-
-pups_data = read_csv(&quot;./data/FAS_pups.csv&quot;,
-  col_types = &quot;ciiiii&quot;)
-pups_data = janitor::clean_names(pups_data)</code></pre>
-<p>You can specify the columns you want to keep by naming all of
-them</p>
-<pre class="r"><code>select(litters_data, group, litter_number, gd0_weight, pups_born_alive)</code></pre>
+litters_df = janitor::clean_names(litters_df)</code></pre>
+</div>
+<div id="select" class="section level2">
+<h2><code>select</code></h2>
+<p>Choose some columms and not others</p>
+<pre class="r"><code>select(litters_df, group, litter_number, gd0_weight, pups_born_alive)</code></pre>
 <pre><code>## # A tibble: 49 × 4
-##   group litter_number gd0_weight pups_born_alive
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;           &lt;int&gt;
-## 1 Con7  #85                 19.7               3
-## 2 Con7  #1/2/95/2           27                 8
-## 3 Con7  #5/5/3/83/3-3       26                 6
-## # ℹ 46 more rows</code></pre>
-<p>You can specify the specify a range of columns to keep:</p>
-<pre class="r"><code>select(litters_data, group:gd_of_birth)</code></pre>
+##    group litter_number   gd0_weight pups_born_alive
+##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;           &lt;int&gt;
+##  1 Con7  #85                   19.7               3
+##  2 Con7  #1/2/95/2             27                 8
+##  3 Con7  #5/5/3/83/3-3         26                 6
+##  4 Con7  #5/4/2/95/2           28.5               5
+##  5 Con7  #4/2/95/3-3           NA                 6
+##  6 Con7  #2/2/95/3-2           NA                 6
+##  7 Con7  #1/5/3/83/3-3/2       NA                 9
+##  8 Con8  #3/83/3-3             NA                 9
+##  9 Con8  #2/95/3               NA                 8
+## 10 Con8  #3/5/2/2/95           28.5               8
+## # ℹ 39 more rows</code></pre>
+<p>You can specify the specify a range of columns to keep, gd_of_birth
+is the last column</p>
+<pre class="r"><code>select(litters_df, group:gd_of_birth)</code></pre>
 <pre><code>## # A tibble: 49 × 5
-##   group litter_number gd0_weight gd18_weight gd_of_birth
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
-## 1 Con7  #85                 19.7        34.7          20
-## 2 Con7  #1/2/95/2           27          42            19
-## 3 Con7  #5/5/3/83/3-3       26          41.4          19
-## # ℹ 46 more rows</code></pre>
+##    group litter_number   gd0_weight gd18_weight gd_of_birth
+##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
+##  1 Con7  #85                   19.7        34.7          20
+##  2 Con7  #1/2/95/2             27          42            19
+##  3 Con7  #5/5/3/83/3-3         26          41.4          19
+##  4 Con7  #5/4/2/95/2           28.5        44.1          19
+##  5 Con7  #4/2/95/3-3           NA          NA            20
+##  6 Con7  #2/2/95/3-2           NA          NA            20
+##  7 Con7  #1/5/3/83/3-3/2       NA          NA            20
+##  8 Con8  #3/83/3-3             NA          NA            20
+##  9 Con8  #2/95/3               NA          NA            20
+## 10 Con8  #3/5/2/2/95           28.5        NA            20
+## # ℹ 39 more rows</code></pre>
 <p>You can also specify columns you’d like to remove:</p>
-<pre class="r"><code>select(litters_data, -pups_survive)</code></pre>
+<pre class="r"><code>select(litters_df, -pups_survive)</code></pre>
 <pre><code>## # A tibble: 49 × 7
-##   group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
-## 1 Con7  #85                 19.7        34.7          20               3
-## 2 Con7  #1/2/95/2           27          42            19               8
-## 3 Con7  #5/5/3/83/3-3       26          41.4          19               6
-## # ℹ 46 more rows
+##    group litter_number   gd0_weight gd18_weight gd_of_birth pups_born_alive
+##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
+##  1 Con7  #85                   19.7        34.7          20               3
+##  2 Con7  #1/2/95/2             27          42            19               8
+##  3 Con7  #5/5/3/83/3-3         26          41.4          19               6
+##  4 Con7  #5/4/2/95/2           28.5        44.1          19               5
+##  5 Con7  #4/2/95/3-3           NA          NA            20               6
+##  6 Con7  #2/2/95/3-2           NA          NA            20               6
+##  7 Con7  #1/5/3/83/3-3/2       NA          NA            20               9
+##  8 Con8  #3/83/3-3             NA          NA            20               9
+##  9 Con8  #2/95/3               NA          NA            20               8
+## 10 Con8  #3/5/2/2/95           28.5        NA            20               8
+## # ℹ 39 more rows
 ## # ℹ 1 more variable: pups_dead_birth &lt;int&gt;</code></pre>
 <p>You can rename variables as part of this process:</p>
-<pre class="r"><code>select(litters_data, GROUP = group, LiTtEr_NuMbEr = litter_number)</code></pre>
+<pre class="r"><code>select(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)</code></pre>
 <pre><code>## # A tibble: 49 × 2
-##   GROUP LiTtEr_NuMbEr
-##   &lt;chr&gt; &lt;chr&gt;        
-## 1 Con7  #85          
-## 2 Con7  #1/2/95/2    
-## 3 Con7  #5/5/3/83/3-3
-## # ℹ 46 more rows</code></pre>
-<pre class="r"><code>rename(litters_data, GROUP = group, LiTtEr_NuMbEr = litter_number)</code></pre>
+##    GROUP LiTtEr_NuMbEr  
+##    &lt;chr&gt; &lt;chr&gt;          
+##  1 Con7  #85            
+##  2 Con7  #1/2/95/2      
+##  3 Con7  #5/5/3/83/3-3  
+##  4 Con7  #5/4/2/95/2    
+##  5 Con7  #4/2/95/3-3    
+##  6 Con7  #2/2/95/3-2    
+##  7 Con7  #1/5/3/83/3-3/2
+##  8 Con8  #3/83/3-3      
+##  9 Con8  #2/95/3        
+## 10 Con8  #3/5/2/2/95    
+## # ℹ 39 more rows</code></pre>
+<pre class="r"><code>rename(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)</code></pre>
 <pre><code>## # A tibble: 49 × 8
-##   GROUP LiTtEr_NuMbEr gd0_weight gd18_weight gd_of_birth pups_born_alive
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
-## 1 Con7  #85                 19.7        34.7          20               3
-## 2 Con7  #1/2/95/2           27          42            19               8
-## 3 Con7  #5/5/3/83/3-3       26          41.4          19               6
-## # ℹ 46 more rows
+##    GROUP LiTtEr_NuMbEr   gd0_weight gd18_weight gd_of_birth pups_born_alive
+##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
+##  1 Con7  #85                   19.7        34.7          20               3
+##  2 Con7  #1/2/95/2             27          42            19               8
+##  3 Con7  #5/5/3/83/3-3         26          41.4          19               6
+##  4 Con7  #5/4/2/95/2           28.5        44.1          19               5
+##  5 Con7  #4/2/95/3-3           NA          NA            20               6
+##  6 Con7  #2/2/95/3-2           NA          NA            20               6
+##  7 Con7  #1/5/3/83/3-3/2       NA          NA            20               9
+##  8 Con8  #3/83/3-3             NA          NA            20               9
+##  9 Con8  #2/95/3               NA          NA            20               8
+## 10 Con8  #3/5/2/2/95           28.5        NA            20               8
+## # ℹ 39 more rows
 ## # ℹ 2 more variables: pups_dead_birth &lt;int&gt;, pups_survive &lt;int&gt;</code></pre>
-<p>functions for select</p>
-<pre class="r"><code>select(litters_data, starts_with(&quot;gd&quot;))</code></pre>
+<p>helper functions for select</p>
+<pre class="r"><code>select(litters_df, starts_with(&quot;gd&quot;))</code></pre>
 <pre><code>## # A tibble: 49 × 3
-##   gd0_weight gd18_weight gd_of_birth
-##        &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
-## 1       19.7        34.7          20
-## 2       27          42            19
-## 3       26          41.4          19
-## # ℹ 46 more rows</code></pre>
-<pre class="r"><code>select(litters_data, litter_number, pups_survive, everything())</code></pre>
+##    gd0_weight gd18_weight gd_of_birth
+##         &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
+##  1       19.7        34.7          20
+##  2       27          42            19
+##  3       26          41.4          19
+##  4       28.5        44.1          19
+##  5       NA          NA            20
+##  6       NA          NA            20
+##  7       NA          NA            20
+##  8       NA          NA            20
+##  9       NA          NA            20
+## 10       28.5        NA            20
+## # ℹ 39 more rows</code></pre>
+<pre class="r"><code>select(litters_df, litter_number, pups_survive, everything())</code></pre>
 <pre><code>## # A tibble: 49 × 8
-##   litter_number pups_survive group gd0_weight gd18_weight gd_of_birth
-##   &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
-## 1 #85                      3 Con7        19.7        34.7          20
-## 2 #1/2/95/2                7 Con7        27          42            19
-## 3 #5/5/3/83/3-3            5 Con7        26          41.4          19
-## # ℹ 46 more rows
+##    litter_number   pups_survive group gd0_weight gd18_weight gd_of_birth
+##    &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
+##  1 #85                        3 Con7        19.7        34.7          20
+##  2 #1/2/95/2                  7 Con7        27          42            19
+##  3 #5/5/3/83/3-3              5 Con7        26          41.4          19
+##  4 #5/4/2/95/2                4 Con7        28.5        44.1          19
+##  5 #4/2/95/3-3                6 Con7        NA          NA            20
+##  6 #2/2/95/3-2                4 Con7        NA          NA            20
+##  7 #1/5/3/83/3-3/2            9 Con7        NA          NA            20
+##  8 #3/83/3-3                  8 Con8        NA          NA            20
+##  9 #2/95/3                    8 Con8        NA          NA            20
+## 10 #3/5/2/2/95                8 Con8        28.5        NA            20
+## # ℹ 39 more rows
 ## # ℹ 2 more variables: pups_born_alive &lt;int&gt;, pups_dead_birth &lt;int&gt;</code></pre>
-<pre class="r"><code>relocate(litters_data, litter_number, pups_survive)</code></pre>
+<pre class="r"><code>relocate(litters_df, litter_number, pups_survive)</code></pre>
 <pre><code>## # A tibble: 49 × 8
-##   litter_number pups_survive group gd0_weight gd18_weight gd_of_birth
-##   &lt;chr&gt;                &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
-## 1 #85                      3 Con7        19.7        34.7          20
-## 2 #1/2/95/2                7 Con7        27          42            19
-## 3 #5/5/3/83/3-3            5 Con7        26          41.4          19
-## # ℹ 46 more rows
+##    litter_number   pups_survive group gd0_weight gd18_weight gd_of_birth
+##    &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;
+##  1 #85                        3 Con7        19.7        34.7          20
+##  2 #1/2/95/2                  7 Con7        27          42            19
+##  3 #5/5/3/83/3-3              5 Con7        26          41.4          19
+##  4 #5/4/2/95/2                4 Con7        28.5        44.1          19
+##  5 #4/2/95/3-3                6 Con7        NA          NA            20
+##  6 #2/2/95/3-2                4 Con7        NA          NA            20
+##  7 #1/5/3/83/3-3/2            9 Con7        NA          NA            20
+##  8 #3/83/3-3                  8 Con8        NA          NA            20
+##  9 #2/95/3                    8 Con8        NA          NA            20
+## 10 #3/5/2/2/95                8 Con8        28.5        NA            20
+## # ℹ 39 more rows
 ## # ℹ 2 more variables: pups_born_alive &lt;int&gt;, pups_dead_birth &lt;int&gt;</code></pre>
 <p>mutate</p>
-<pre class="r"><code>mutate(litters_data,
+<pre class="r"><code>mutate(litters_df,
   wt_gain = gd18_weight - gd0_weight,
   group = str_to_lower(group)
 )</code></pre>
 <pre><code>## # A tibble: 49 × 9
-##   group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
-## 1 con7  #85                 19.7        34.7          20               3
-## 2 con7  #1/2/95/2           27          42            19               8
-## 3 con7  #5/5/3/83/3-3       26          41.4          19               6
-## # ℹ 46 more rows
+##    group litter_number   gd0_weight gd18_weight gd_of_birth pups_born_alive
+##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
+##  1 con7  #85                   19.7        34.7          20               3
+##  2 con7  #1/2/95/2             27          42            19               8
+##  3 con7  #5/5/3/83/3-3         26          41.4          19               6
+##  4 con7  #5/4/2/95/2           28.5        44.1          19               5
+##  5 con7  #4/2/95/3-3           NA          NA            20               6
+##  6 con7  #2/2/95/3-2           NA          NA            20               6
+##  7 con7  #1/5/3/83/3-3/2       NA          NA            20               9
+##  8 con8  #3/83/3-3             NA          NA            20               9
+##  9 con8  #2/95/3               NA          NA            20               8
+## 10 con8  #3/5/2/2/95           28.5        NA            20               8
+## # ℹ 39 more rows
 ## # ℹ 3 more variables: pups_dead_birth &lt;int&gt;, pups_survive &lt;int&gt;, wt_gain &lt;dbl&gt;</code></pre>
-<pre class="r"><code>mutate(pups_data, pivot_minus7 = pd_pivot - 7)</code></pre>
-<pre><code>## # A tibble: 313 × 7
-##   litter_number   sex pd_ears pd_eyes pd_pivot pd_walk pivot_minus7
-##   &lt;chr&gt;         &lt;int&gt;   &lt;int&gt;   &lt;int&gt;    &lt;int&gt;   &lt;int&gt;        &lt;dbl&gt;
-## 1 #85               1       4      13        7      11            0
-## 2 #85               1       4      13        7      12            0
-## 3 #1/2/95/2         1       5      13        7       9            0
-## # ℹ 310 more rows</code></pre>
-<pre class="r"><code>mutate(pups_data, pd_sum = pd_ears + pd_eyes + pd_pivot + pd_walk)</code></pre>
-<pre><code>## # A tibble: 313 × 7
-##   litter_number   sex pd_ears pd_eyes pd_pivot pd_walk pd_sum
-##   &lt;chr&gt;         &lt;int&gt;   &lt;int&gt;   &lt;int&gt;    &lt;int&gt;   &lt;int&gt;  &lt;int&gt;
-## 1 #85               1       4      13        7      11     35
-## 2 #85               1       4      13        7      12     36
-## 3 #1/2/95/2         1       5      13        7       9     34
-## # ℹ 310 more rows</code></pre>
 <p>arrange</p>
-<pre class="r"><code>head(arrange(litters_data, group, pups_born_alive), 10)</code></pre>
+<pre class="r"><code>head(arrange(litters_df, group, pups_born_alive), 10)</code></pre>
 <pre><code>## # A tibble: 10 × 8
 ##    group litter_number   gd0_weight gd18_weight gd_of_birth pups_born_alive
 ##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
@@ -508,13 +554,21 @@ them</p>
 
 litters_data</code></pre>
 <pre><code>## # A tibble: 31 × 8
-##   group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
-##   &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
-## 1 con7  #85                 19.7        34.7          20               3
-## 2 con7  #1/2/95/2           27          42            19               8
-## 3 con7  #5/5/3/83/3-3       26          41.4          19               6
-## # ℹ 28 more rows
+##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
+##    &lt;chr&gt; &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
+##  1 con7  #85                 19.7        34.7          20               3
+##  2 con7  #1/2/95/2           27          42            19               8
+##  3 con7  #5/5/3/83/3-3       26          41.4          19               6
+##  4 con7  #5/4/2/95/2         28.5        44.1          19               5
+##  5 mod7  #59                 17          33.4          19               8
+##  6 mod7  #103                21.4        42.1          19               9
+##  7 mod7  #3/82/3-2           28          45.9          20               5
+##  8 mod7  #5/3/83/5-2         22.6        37            19               5
+##  9 mod7  #106                21.7        37.8          20               5
+## 10 mod7  #94/2               24.4        42.9          19               7
+## # ℹ 21 more rows
 ## # ℹ 2 more variables: pups_dead_birth &lt;int&gt;, wt_gain &lt;dbl&gt;</code></pre>
+</div>
 
 
 
