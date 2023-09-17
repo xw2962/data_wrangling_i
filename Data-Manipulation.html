@@ -639,9 +639,11 @@ is the last column</p>
 ## 10 con8  #3/5/2/2/95           28.5        NA            20               8
 ## # ℹ 39 more rows
 ## # ℹ 3 more variables: pups_dead_birth &lt;int&gt;, pups_survive &lt;int&gt;, wt_gain &lt;dbl&gt;</code></pre>
-<p>arrange</p>
-<pre class="r"><code>head(arrange(litters_df, group, pups_born_alive), 10)</code></pre>
-<pre><code>## # A tibble: 10 × 8
+</div>
+<div id="arrange" class="section level2">
+<h2><code>arrange</code></h2>
+<pre class="r"><code>arrange(litters_df, group, pups_born_alive)</code></pre>
+<pre><code>## # A tibble: 49 × 8
 ##    group litter_number   gd0_weight gd18_weight gd_of_birth pups_born_alive
 ##    &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;       &lt;dbl&gt;       &lt;int&gt;           &lt;int&gt;
 ##  1 Con7  #85                   19.7        34.7          20               3
@@ -654,6 +656,7 @@ is the last column</p>
 ##  8 Con8  #2/2/95/2             NA          NA            19               5
 ##  9 Con8  #1/6/2/2/95-2         NA          NA            20               7
 ## 10 Con8  #3/6/2/2/95-3         NA          NA            20               7
+## # ℹ 39 more rows
 ## # ℹ 2 more variables: pups_dead_birth &lt;int&gt;, pups_survive &lt;int&gt;</code></pre>
 <p>pipe %&gt;% cmd+shift+m</p>
 <pre class="r"><code>litters_data = 
