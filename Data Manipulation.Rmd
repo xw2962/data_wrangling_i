@@ -69,7 +69,8 @@ group including either Con7 or Mod8
 filter(litters_df,group %in% c("Con7","Mod8") )
 ```
 
-mutate
+## `mutate`
+
 ```{r}
 mutate(litters_df,
   wt_gain = gd18_weight - gd0_weight,

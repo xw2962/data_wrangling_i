@@ -617,7 +617,9 @@ is the last column</p>
 ## 13 Mod8  #2/95/2               28.5        44.5          20               9
 ## 14 Mod8  #82/4                 33.4        52.7          20               8
 ## # ℹ 2 more variables: pups_dead_birth &lt;int&gt;, pups_survive &lt;int&gt;</code></pre>
-<p>mutate</p>
+</div>
+<div id="mutate" class="section level2">
+<h2><code>mutate</code></h2>
 <pre class="r"><code>mutate(litters_df,
   wt_gain = gd18_weight - gd0_weight,
   group = str_to_lower(group)
