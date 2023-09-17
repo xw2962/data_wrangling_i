@@ -2,7 +2,7 @@
 title: "Data Manipulation"
 author: "Xiaoyu Wu"
 date: "2023-09-17"
-output: html_document
+output: github_document
 ---
 
 ```{r setup}
