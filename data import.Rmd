@@ -42,7 +42,7 @@ view functions to see all the dataset
 ```{r eval=FALSE}
 view(litters_df)
 ```
-Look at data summary or variables type 
+Look at data summary including variables types 
 ```{r}
 str(litters_df)
 ```

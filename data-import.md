@@ -132,6 +132,8 @@ litters_df
     ## # ℹ 39 more rows
     ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>
 
+See part of the dataset
+
 ``` r
 head(litters_df)
 ```
@@ -167,6 +169,36 @@ view functions to see all the dataset
 ``` r
 view(litters_df)
 ```
+
+Look at data summary including variables types
+
+``` r
+str(litters_df)
+```
+
+    ## spc_tbl_ [49 × 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+    ##  $ group          : chr [1:49] "Con7" "Con7" "Con7" "Con7" ...
+    ##  $ litter_number  : chr [1:49] "#85" "#1/2/95/2" "#5/5/3/83/3-3" "#5/4/2/95/2" ...
+    ##  $ gd0_weight     : num [1:49] 19.7 27 26 28.5 NA NA NA NA NA 28.5 ...
+    ##  $ gd18_weight    : num [1:49] 34.7 42 41.4 44.1 NA NA NA NA NA NA ...
+    ##  $ gd_of_birth    : num [1:49] 20 19 19 19 20 20 20 20 20 20 ...
+    ##  $ pups_born_alive: num [1:49] 3 8 6 5 6 6 9 9 8 8 ...
+    ##  $ pups_dead_birth: num [1:49] 4 0 0 1 0 0 0 1 0 0 ...
+    ##  $ pups_survive   : num [1:49] 3 7 5 4 6 4 9 8 8 8 ...
+    ##  - attr(*, "spec")=
+    ##   .. cols(
+    ##   ..   Group = col_character(),
+    ##   ..   `Litter Number` = col_character(),
+    ##   ..   `GD0 weight` = col_double(),
+    ##   ..   `GD18 weight` = col_double(),
+    ##   ..   `GD of Birth` = col_double(),
+    ##   ..   `Pups born alive` = col_double(),
+    ##   ..   `Pups dead @ birth` = col_double(),
+    ##   ..   `Pups survive` = col_double()
+    ##   .. )
+    ##  - attr(*, "problems")=<externalptr>
+
+Look at dataset using `skim` function
 
 ``` r
 skimr::skim(litters_df)
