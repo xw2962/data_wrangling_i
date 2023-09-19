@@ -60,6 +60,12 @@ litters_df=read_csv("./data/FAS_litters.csv", skip=10, col_names=FALSE)
 litters_df
 ```
 
+adding `NA` values 
+```{r}
+litters_df=read_csv("./data/FAS_litters.csv", na=c("NA",19))
+litters_df
+```
+
 ## Other file format
 
 Read in an excel file.
