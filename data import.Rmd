@@ -15,8 +15,16 @@ Read in the litters dataset.
 ```{r}
 litters_df = read_csv("./data/FAS_litters.csv")
 litters_df = janitor::clean_names(litters_df)
+litters_df
 ```
 
+Read in pups dataset 
+```{r}
+pups_data = read_csv(file = "./data/FAS_pups.csv")
+pups_data = read_csv(file = "~/Desktop/Data Science/script and data/data_wrangling_i/data/FAS_litters.csv")
+pups_data = janitor::clean_names(pups_data)
+pups_data
+```
 
 ## Take a look at the data
 
@@ -25,12 +33,20 @@ Printing in the console.
 ```{r}
 litters_df
 ```
-
+See part of the dataset 
 ```{r}
 head(litters_df)
 tail(litters_df)
 ```
-
+view functions to see all the dataset
+```{r eval=FALSE}
+view(litters_df)
+```
+Look at data summary or variables type 
+```{r}
+str(litters_df)
+```
+Look at dataset using `skim` function 
 ```{r}
 skimr::skim(litters_df)
 ```
