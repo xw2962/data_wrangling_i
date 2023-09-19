@@ -65,6 +65,11 @@ adding `NA` values
 litters_df=read_csv("./data/FAS_litters.csv", na=c("NA",19))
 litters_df
 ```
+changing columns type treatment 
+```{r}
+litters_df=read_csv("./data/FAS_litters.csv", col_types = cols(Group=col_factor()))
+litters_df
+```
 
 ## Other file format
 
