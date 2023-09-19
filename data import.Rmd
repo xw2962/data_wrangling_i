@@ -90,7 +90,7 @@ pulse_df
 
 what about `read.csv` ...? 
 
-```{r}
+```{r eval=FALSE}
 litters_base=read.csv("./data/FAS_litters.csv")
 litters_readr=read_csv("./data/FAS_litters.csv")
 litters_base
