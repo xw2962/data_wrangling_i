@@ -270,11 +270,11 @@ lotr_tidy
     ## 17 return_king     man    female   268
     ## 18 return_king     man    male    2459
 
-# Joining Dataset
+## Joining Dataset
 
 ``` r
 pup_data = 
-  read_csv("./data/FAS_pups.csv") %>%
+  read_csv("./data/FAS_pups.csv") %>%  
   janitor::clean_names() %>%
   mutate(
     sex = recode(sex, `1` = "male", `2` = "female"),
@@ -295,6 +295,7 @@ litter_data =
   read_csv("./data/FAS_litters.csv") %>%
   janitor::clean_names() %>%
   separate(group, into = c("dose", "day_of_tx"), sep = 3) %>%
+# seperate group column into two columns "dose" and "day_of_tx", then set seperate after 3 elements.  
   relocate(litter_number) %>%
   mutate(
     wt_gain = gd18_weight - gd0_weight,
@@ -310,25 +311,29 @@ litter_data =
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
+Join now
+
 ``` r
 fas_data = 
-  left_join(pup_data, litter_data, by = "litter_number")
+  left_join(pup_data, litter_data, by = "litter_number") %>%
+  arrange(litter_number) %>%
+  relocate(litter_number, dose, day_of_tx)
 fas_data
 ```
 
     ## # A tibble: 313 × 15
-    ##    litter_number sex   pd_ears pd_eyes pd_pivot pd_walk dose  day_of_tx
-    ##    <chr>         <fct>   <dbl>   <dbl>    <dbl>   <dbl> <chr> <chr>    
-    ##  1 #85           male        4      13        7      11 con   7        
-    ##  2 #85           male        4      13        7      12 con   7        
-    ##  3 #1/2/95/2     male        5      13        7       9 con   7        
-    ##  4 #1/2/95/2     male        5      13        8      10 con   7        
-    ##  5 #5/5/3/83/3-3 male        5      13        8      10 con   7        
-    ##  6 #5/5/3/83/3-3 male        5      14        6       9 con   7        
-    ##  7 #5/4/2/95/2   male       NA      14        5       9 con   7        
-    ##  8 #4/2/95/3-3   male        4      13        6       8 con   7        
-    ##  9 #4/2/95/3-3   male        4      13        7       9 con   7        
-    ## 10 #2/2/95/3-2   male        4      NA        8      10 con   7        
+    ##    litter_number   dose  day_of_tx sex    pd_ears pd_eyes pd_pivot pd_walk
+    ##    <chr>           <chr> <chr>     <fct>    <dbl>   <dbl>    <dbl>   <dbl>
+    ##  1 #1/2/95/2       con   7         male         5      13        7       9
+    ##  2 #1/2/95/2       con   7         male         5      13        8      10
+    ##  3 #1/2/95/2       con   7         female       4      13        7       9
+    ##  4 #1/2/95/2       con   7         female       4      13        7      10
+    ##  5 #1/2/95/2       con   7         female       5      13        8      10
+    ##  6 #1/2/95/2       con   7         female       5      13        8      10
+    ##  7 #1/2/95/2       con   7         female       5      13        6      10
+    ##  8 #1/5/3/83/3-3/2 con   7         male         4      NA       NA       9
+    ##  9 #1/5/3/83/3-3/2 con   7         male         4      NA        7       9
+    ## 10 #1/5/3/83/3-3/2 con   7         male         4      NA        7       9
     ## # ℹ 303 more rows
     ## # ℹ 7 more variables: gd0_weight <dbl>, gd18_weight <dbl>, gd_of_birth <dbl>,
     ## #   pups_born_alive <dbl>, pups_dead_birth <dbl>, pups_survive <dbl>,
