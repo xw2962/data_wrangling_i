@@ -213,7 +213,11 @@ analysis_result
     ## 3 placebo   pre     3.5
     ## 4 placebo   post    4
 
-# Binding Rows
+## Binding Rows
+
+Using the LotR data.
+
+First step: import each table.
 
 ``` r
 fellowship_ring = 
@@ -228,6 +232,8 @@ return_king =
   readxl::read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>%
   mutate(movie = "return_king")
 ```
+
+Bind all the rows together
 
 ``` r
 lotr_tidy = 
