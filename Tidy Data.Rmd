@@ -46,24 +46,6 @@ pulse_data
 ```
 
 ```{r}
-pulse_data = 
-  haven::read_sas("./data/public_pulse_data.sas7bdat") %>%
-  janitor::clean_names() %>%
-  pivot_longer(
-    bdi_score_bl:bdi_score_12m,
-    names_to = "visit", 
-    names_prefix = "bdi_score_",
-    values_to = "bdi") %>%
-  relocate(visit) %>%
-  mutate(
-    visit = replace(visit, visit == "bl", "00m"),
-    visit = factor(visit)) %>%
-  arrange(id, visit)
-
-print(pulse_data, n = 12)
-```
-
-```{r}
 litters_wide = 
   read_csv("./data/FAS_litters.csv") %>%
   janitor::clean_names() %>%
@@ -78,12 +60,30 @@ litters_wide
 
 ## `pivot_wider`
 
+Mkae up some data!
 ```{r}
 analysis_result = tibble(
   group = c("treatment", "treatment", "placebo", "placebo"),
   time = c("pre", "post", "pre", "post"),
   mean = c(4, 8, 3.5, 4)
 )
+analysis_result
+```
+
+```{r}
+analysis_result = tibble(
+  group = c("treatment", "treatment", "placebo", "placebo"),
+  time = c("pre", "post", "pre", "post"),
+  mean = c(4, 8, 3.5, 4)
+)
+analysis_result %>% 
+  pivot_wider(
+    names_from="time",
+    values_from="mean"
+  )
+```
+
+```{r}
 pivot_wider(
   analysis_result, 
   names_from = "time", 

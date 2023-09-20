@@ -109,41 +109,6 @@ pulse_data
     ## # ℹ 4,338 more rows
 
 ``` r
-pulse_data = 
-  haven::read_sas("./data/public_pulse_data.sas7bdat") %>%
-  janitor::clean_names() %>%
-  pivot_longer(
-    bdi_score_bl:bdi_score_12m,
-    names_to = "visit", 
-    names_prefix = "bdi_score_",
-    values_to = "bdi") %>%
-  relocate(visit) %>%
-  mutate(
-    visit = replace(visit, visit == "bl", "00m"),
-    visit = factor(visit)) %>%
-  arrange(id, visit)
-
-print(pulse_data, n = 12)
-```
-
-    ## # A tibble: 4,348 × 5
-    ##    visit    id   age sex     bdi
-    ##    <fct> <dbl> <dbl> <chr> <dbl>
-    ##  1 00m   10003  48.0 male      7
-    ##  2 01m   10003  48.0 male      1
-    ##  3 06m   10003  48.0 male      2
-    ##  4 12m   10003  48.0 male      0
-    ##  5 00m   10015  72.5 male      6
-    ##  6 01m   10015  72.5 male     NA
-    ##  7 06m   10015  72.5 male     NA
-    ##  8 12m   10015  72.5 male     NA
-    ##  9 00m   10022  58.5 male     14
-    ## 10 01m   10022  58.5 male      3
-    ## 11 06m   10022  58.5 male      8
-    ## 12 12m   10022  58.5 male     NA
-    ## # ℹ 4,336 more rows
-
-``` r
 litters_wide = 
   read_csv("./data/FAS_litters.csv") %>%
   janitor::clean_names() %>%
@@ -185,12 +150,45 @@ litters_wide
 
 ## `pivot_wider`
 
+Mkae up some data!
+
 ``` r
 analysis_result = tibble(
   group = c("treatment", "treatment", "placebo", "placebo"),
   time = c("pre", "post", "pre", "post"),
   mean = c(4, 8, 3.5, 4)
 )
+analysis_result
+```
+
+    ## # A tibble: 4 × 3
+    ##   group     time   mean
+    ##   <chr>     <chr> <dbl>
+    ## 1 treatment pre     4  
+    ## 2 treatment post    8  
+    ## 3 placebo   pre     3.5
+    ## 4 placebo   post    4
+
+``` r
+analysis_result = tibble(
+  group = c("treatment", "treatment", "placebo", "placebo"),
+  time = c("pre", "post", "pre", "post"),
+  mean = c(4, 8, 3.5, 4)
+)
+analysis_result %>% 
+  pivot_wider(
+    names_from="time",
+    values_from="mean"
+  )
+```
+
+    ## # A tibble: 2 × 3
+    ##   group       pre  post
+    ##   <chr>     <dbl> <dbl>
+    ## 1 treatment   4       8
+    ## 2 placebo     3.5     4
+
+``` r
 pivot_wider(
   analysis_result, 
   names_from = "time", 
