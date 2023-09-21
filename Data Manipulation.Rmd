@@ -54,9 +54,12 @@ select(litters_df, group, gd0_weight:gd_of_birth)
 select(litters_df, group)
 pull(litters_df, group)
 ```
-
+short `select` learning assessment 
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
+```
 ## `filter`
-
+get rid of rows using `filter()`
 ```{r}
 filter(litters_df,gd0_weight<22 )
 ```
@@ -79,10 +82,11 @@ filter(litters_df,gd0_weight>=22,gd_of_birth==20 )
 group including either Con7 or Mod8 
 ```{r}
 filter(litters_df,group %in% c("Con7","Mod8") )
+filter(litters_df,group=="Con7"|group=="Mod8")
 ```
-short `select` learning assessment 
+
 ```{r}
-select(pups_df, litter_number, sex, pd_ears)
+filter(litters_df,group %in% c("Con7","Mod8") ,gd0_weight>20)
 ```
 
 ## `mutate`
