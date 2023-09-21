@@ -563,33 +563,45 @@ arrange(litters_df, group, pups_born_alive)
     ## # ℹ 39 more rows
     ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>
 
-## pipe `%>%` cmd+shift+m
+## pipe `|>` cmd+shift+m
 
 ``` r
 litters_df = 
-  read_csv("./data/FAS_litters.csv", col_types = "ccddiiii") %>%
-  janitor::clean_names() %>%
-  select(-pups_survive) %>%
+  read_csv("./data/FAS_litters.csv")  |> 
+  janitor::clean_names()  |> 
+  select(-starts_with("pups"))  |> 
   mutate(
-    wt_gain = gd18_weight - gd0_weight,
-    group = str_to_lower(group)) %>% 
-  drop_na(wt_gain)
+    group = str_to_lower(group),
+    wt_gain = gd18_weight - gd0_weight
+    ) |> 
+  drop_na(wt_gain)|>
+  arrange(group, wt_gain)
+```
 
+    ## Rows: 49 Columns: 8
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 litters_df
 ```
 
-    ## # A tibble: 31 × 8
-    ##    group litter_number gd0_weight gd18_weight gd_of_birth pups_born_alive
-    ##    <chr> <chr>              <dbl>       <dbl>       <int>           <int>
-    ##  1 con7  #85                 19.7        34.7          20               3
-    ##  2 con7  #1/2/95/2           27          42            19               8
-    ##  3 con7  #5/5/3/83/3-3       26          41.4          19               6
-    ##  4 con7  #5/4/2/95/2         28.5        44.1          19               5
-    ##  5 mod7  #59                 17          33.4          19               8
-    ##  6 mod7  #103                21.4        42.1          19               9
-    ##  7 mod7  #3/82/3-2           28          45.9          20               5
-    ##  8 mod7  #5/3/83/5-2         22.6        37            19               5
-    ##  9 mod7  #106                21.7        37.8          20               5
-    ## 10 mod7  #94/2               24.4        42.9          19               7
+    ## # A tibble: 31 × 6
+    ##    group litter_number gd0_weight gd18_weight gd_of_birth wt_gain
+    ##    <chr> <chr>              <dbl>       <dbl>       <dbl>   <dbl>
+    ##  1 con7  #1/2/95/2           27          42            19    15  
+    ##  2 con7  #85                 19.7        34.7          20    15  
+    ##  3 con7  #5/5/3/83/3-3       26          41.4          19    15.4
+    ##  4 con7  #5/4/2/95/2         28.5        44.1          19    15.6
+    ##  5 low7  #85/2               22.2        38.5          20    16.3
+    ##  6 low7  #84/2               24.3        40.8          20    16.5
+    ##  7 low7  #112                23.9        40.5          19    16.6
+    ##  8 low7  #101                23.8        42.7          20    18.9
+    ##  9 low7  #111                25.5        44.6          20    19.1
+    ## 10 low7  #107                22.6        42.4          20    19.8
     ## # ℹ 21 more rows
-    ## # ℹ 2 more variables: pups_dead_birth <int>, wt_gain <dbl>
