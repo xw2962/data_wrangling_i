@@ -23,7 +23,7 @@ Choose some columms and not others
 ```{r}
 select(litters_df, group, litter_number, gd0_weight, pups_born_alive)
 ```
-You can specify the specify a range of columns to keep, gd_of_birth is the last column 
+You can specify a range of columns to keep, gd_of_birth is the last column 
 ```{r}
 select(litters_df, group:gd_of_birth)
 ```

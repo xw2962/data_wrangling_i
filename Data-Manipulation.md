@@ -49,8 +49,8 @@ select(litters_df, group, litter_number, gd0_weight, pups_born_alive)
     ## 10 Con8  #3/5/2/2/95           28.5               8
     ## # ℹ 39 more rows
 
-You can specify the specify a range of columns to keep, gd_of_birth is
-the last column
+You can specify a range of columns to keep, gd_of_birth is the last
+column
 
 ``` r
 select(litters_df, group:gd_of_birth)
