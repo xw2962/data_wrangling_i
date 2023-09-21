@@ -541,6 +541,8 @@ drop_na(litters_df, gd0_weight)
 
 ## `arrange`
 
+put everything in order (numerical or alphabetical order)
+
 ``` r
 arrange(litters_df, group, pups_born_alive)
 ```
