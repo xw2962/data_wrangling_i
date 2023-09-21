@@ -159,8 +159,8 @@ rename(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)
     ## # ℹ 39 more rows
     ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>
 
-helper functions for select everything function helps select everything
-else after litter_number and pups_survive
+helper functions for select everything() function helps select
+everything else after litter_number and pups_survive
 
 ``` r
 select(litters_df, starts_with("gd"))
@@ -407,6 +407,27 @@ filter(litters_df,group %in% c("Con7","Mod8") )
     ## 13 Mod8  #2/95/2               28.5        44.5          20               9
     ## 14 Mod8  #82/4                 33.4        52.7          20               8
     ## # ℹ 2 more variables: pups_dead_birth <dbl>, pups_survive <dbl>
+
+short `select` learning assessment
+
+``` r
+select(pups_df, litter_number, sex, pd_ears)
+```
+
+    ## # A tibble: 313 × 3
+    ##    litter_number   sex pd_ears
+    ##    <chr>         <dbl>   <dbl>
+    ##  1 #85               1       4
+    ##  2 #85               1       4
+    ##  3 #1/2/95/2         1       5
+    ##  4 #1/2/95/2         1       5
+    ##  5 #5/5/3/83/3-3     1       5
+    ##  6 #5/5/3/83/3-3     1       5
+    ##  7 #5/4/2/95/2       1      NA
+    ##  8 #4/2/95/3-3       1       4
+    ##  9 #4/2/95/3-3       1       4
+    ## 10 #2/2/95/3-2       1       4
+    ## # ℹ 303 more rows
 
 ## `mutate`
 

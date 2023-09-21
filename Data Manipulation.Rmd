@@ -39,7 +39,7 @@ select(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)
 rename(litters_df, GROUP = group, LiTtEr_NuMbEr = litter_number)
 ```
 helper functions for select 
-everything function helps select everything else after litter_number and pups_survive
+everything() function helps select everything else after litter_number and pups_survive
 ```{r}
 select(litters_df, starts_with("gd"))
 select(litters_df, litter_number, pups_survive, everything())
@@ -79,6 +79,10 @@ filter(litters_df,gd0_weight>=22,gd_of_birth==20 )
 group including either Con7 or Mod8 
 ```{r}
 filter(litters_df,group %in% c("Con7","Mod8") )
+```
+short `select` learning assessment 
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
 ```
 
 ## `mutate`
