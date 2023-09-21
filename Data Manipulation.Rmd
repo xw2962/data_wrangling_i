@@ -98,6 +98,11 @@ mutate(
   group = str_to_lower(group)
 )
 ```
+what about missing rows
+```{r}
+drop_na(litters_df)
+drop_na(litters_df, gd0_weight)
+```
 
 ## `arrange`
 
