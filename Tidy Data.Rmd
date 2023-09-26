@@ -147,18 +147,28 @@ lotr_tidy
 pup_data = 
   read_csv("./data/FAS_pups.csv") |>  
   janitor::clean_names() |> 
-  mutate(
+# mutate(
+#      sex=case_match(
+#        sex,
+#        1~"male",
+#        2~"female"
+#      )
+#    )
+ mutate(
     sex = recode(sex, `1` = "male", `2` = "female"),
-    sex = factor(sex)) 
+    sex = factor(sex))
 litter_data = 
   read_csv("./data/FAS_litters.csv") |> 
   janitor::clean_names() |> 
+  mutate(wt_gain=gd18_weight-gd0_weight)|>
   separate(group, into = c("dose", "day_of_tx"), sep = 3) |> 
 # seperate group column into two columns "dose" and "day_of_tx", then set seperate after 3 elements.  
   relocate(litter_number) |> 
   mutate(
     wt_gain = gd18_weight - gd0_weight,
-    dose = str_to_lower(dose))
+    dose = str_to_lower(dose)) |>
+select(litter_number,dose, day_of_tx,wt_gain)
+litter_data
 ```
 
 Join now 
