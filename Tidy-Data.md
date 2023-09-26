@@ -28,7 +28,7 @@ Load the PULSE data(SAS format)
 
 ``` r
 pulse_data = 
-  haven::read_sas("./data/public_pulse_data.sas7bdat") %>%
+  haven::read_sas("./data/public_pulse_data.sas7bdat")  |> 
   janitor::clean_names()
 pulse_data
 ```
@@ -52,7 +52,7 @@ Wide format to long format…
 
 ``` r
 pulse_data_tidy =
-  pulse_data %>%
+  pulse_data |> 
   pivot_longer(
     bdi_score_bl:bdi_score_12m,
     names_to = "visit", 
@@ -82,15 +82,17 @@ rewrite, combine , and extend (to add a mutate)
 
 ``` r
 pulse_data = 
-  haven::read_sas("./data/public_pulse_data.sas7bdat") %>%
-  janitor::clean_names() %>%
+  haven::read_sas("./data/public_pulse_data.sas7bdat") |> 
+  janitor::clean_names() |> 
   pivot_longer(
     bdi_score_bl:bdi_score_12m,
     names_to = "visit", 
-    names_prefix = "bdi_score_",
-    values_to = "bdi") %>%
-  relocate(id, visit) %>%
+    values_to = "bdi",
+    names_prefix = "bdi_score_") |> 
+  relocate(id, visit) |> 
   mutate(visit=recode(visit, "bl"="00m"))
+# OR mutate(visit=replace(visit, visit=="bl","00m"))
+# change variable's name by using recode or replace
 pulse_data
 ```
 
@@ -111,14 +113,21 @@ pulse_data
 
 ``` r
 litters_wide = 
-  read_csv("./data/FAS_litters.csv") %>%
-  janitor::clean_names() %>%
-  select(litter_number, ends_with("weight")) %>% 
+  read_csv("./data/FAS_litters.csv") |> 
+  janitor::clean_names() |> 
+  select(litter_number, ends_with("weight")) |> 
   pivot_longer(
     gd0_weight:gd18_weight,
     names_to = "gd", 
-    values_to = "weight") %>% 
-  mutate(gd = recode(gd, "gd0_weight" = 0, "gd18_weight" = 18))
+    values_to = "weight") |>  
+# mutate(gd = recode(gd, "gd0_weight" = 0, "gd18_weight" = 18))
+  mutate(
+   gd=case_match(
+     gd,
+     "gd0_weight" ~ 0,
+     "gd18_weight" ~18,
+   )
+)
 ```
 
     ## Rows: 49 Columns: 8
@@ -131,6 +140,7 @@ litters_wide =
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
+# change variable's name by using recode or case_match
 litters_wide
 ```
 
@@ -176,7 +186,7 @@ analysis_result = tibble(
   time = c("pre", "post", "pre", "post"),
   mean = c(4, 8, 3.5, 4)
 )
-analysis_result %>% 
+analysis_result |> 
   pivot_wider(
     names_from="time",
     values_from="mean"
@@ -222,30 +232,34 @@ First step: import each table.
 
 ``` r
 fellowship_ring = 
-  readxl::read_excel("./data/LotR_Words.xlsx", range = "B3:D6") %>%
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "B3:D6") |> 
   mutate(movie = "fellowship_ring")
+# this mutate function add a column called movie with values "fellowship_ring"
 
 two_towers = 
-  readxl::read_excel("./data/LotR_Words.xlsx", range = "F3:H6") %>%
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "F3:H6") |> 
   mutate(movie = "two_towers")
+# this mutate function add a column called movie with values "two_towers"
 
 return_king = 
-  readxl::read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>%
+  readxl::read_excel("./data/LotR_Words.xlsx", range = "J3:L6") |> 
   mutate(movie = "return_king")
+# this mutate function add a column called movie with values "return_king"
 ```
 
 Bind all the rows together
 
 ``` r
 lotr_tidy = 
-  bind_rows(fellowship_ring, two_towers, return_king) %>%
-  janitor::clean_names() %>%
+  bind_rows(fellowship_ring, two_towers, return_king) |> 
+  janitor::clean_names() |> 
   pivot_longer(
     female:male,
     names_to = "gender", 
-    values_to = "words") %>%
-  mutate(race = str_to_lower(race)) %>% 
-  select(movie, everything()) 
+    values_to = "words") |> 
+  mutate(race = str_to_lower(race)) |> 
+  select(movie, everything())
+# OR relocate(movie)
 lotr_tidy
 ```
 
@@ -275,8 +289,8 @@ lotr_tidy
 
 ``` r
 pup_data = 
-  read_csv("./data/FAS_pups.csv") %>%  
-  janitor::clean_names() %>%
+  read_csv("./data/FAS_pups.csv") |>  
+  janitor::clean_names() |> 
   mutate(
     sex = recode(sex, `1` = "male", `2` = "female"),
     sex = factor(sex)) 
@@ -293,11 +307,11 @@ pup_data =
 
 ``` r
 litter_data = 
-  read_csv("./data/FAS_litters.csv") %>%
-  janitor::clean_names() %>%
-  separate(group, into = c("dose", "day_of_tx"), sep = 3) %>%
+  read_csv("./data/FAS_litters.csv") |> 
+  janitor::clean_names() |> 
+  separate(group, into = c("dose", "day_of_tx"), sep = 3) |> 
 # seperate group column into two columns "dose" and "day_of_tx", then set seperate after 3 elements.  
-  relocate(litter_number) %>%
+  relocate(litter_number) |> 
   mutate(
     wt_gain = gd18_weight - gd0_weight,
     dose = str_to_lower(dose))
@@ -316,8 +330,8 @@ Join now
 
 ``` r
 fas_data = 
-  left_join(pup_data, litter_data, by = "litter_number") %>%
-  arrange(litter_number) %>%
+  left_join(pup_data, litter_data, by = "litter_number") |> 
+  arrange(litter_number) |> 
   relocate(litter_number, dose, day_of_tx)
 fas_data
 ```
