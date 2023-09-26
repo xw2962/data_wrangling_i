@@ -26,6 +26,7 @@ pulse_data_tidy =
     bdi_score_bl:bdi_score_12m,
     names_to = "visit", 
     names_prefix = "bdi_score_",
+#delete the prefix "bdi_score_"
     values_to = "bdi")
 
 pulse_data_tidy
